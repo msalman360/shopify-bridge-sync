@@ -1,0 +1,199 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Shopify Bridge Sync</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #875A7B; font-size: 2.5em; margin-bottom: 10px; }
+        h2 { color: #333; border-bottom: 2px solid #875A7B; padding-bottom: 10px; margin-top: 30px; }
+        h3 { color: #666; }
+        .badge { display: inline-block; padding: 5px 15px; background: #875A7B; color: #fff; border-radius: 20px; font-size: 0.9em; margin: 5px; }
+        .feature-box { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #875A7B; }
+        .screenshot { width: 100%; border-radius: 8px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+        .icon-box { text-align: center; padding: 20px; }
+        .icon-box i { font-size: 3em; color: #875A7B; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #875A7B; color: #fff; }
+        .highlight { background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .version { background: #28a745; color: #fff; padding: 5px 15px; border-radius: 20px; display: inline-block; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; padding: 20px 0;">
+            <h1><i class="fa fa-refresh" style="color: #875A7B;"></i> Shopify Bridge Sync</h1>
+            <p style="font-size: 1.2em; color: #666;">Powerful Shopify - Odoo Connector</p>
+            <span class="version">Version 18.0.1.0.0</span>
+            <span class="badge">Odoo 18</span>
+            <span class="badge">Enterprise & Community</span>
+        </div>
+
+        <img src="banner.png" alt="Shopify Bridge Sync Banner" style="width: 100%; border-radius: 10px; margin: 20px 0;">
+
+        <h2><i class="fa fa-info-circle"></i> Overview</h2>
+        <p style="font-size: 1.1em; line-height: 1.6;">
+            <strong>Shopify Bridge Sync</strong> is a comprehensive connector that seamlessly integrates your 
+            <strong>Shopify store</strong> with <strong>Odoo ERP</strong>. Synchronize products, orders, customers, 
+            and inventory in real-time with an intuitive dashboard interface.
+        </p>
+
+        <h2><i class="fa fa-star"></i> Key Features</h2>
+        <div class="grid-3">
+            <div class="icon-box">
+                <i class="fa fa-cube"></i>
+                <h3>Product Sync</h3>
+                <p>Import products, variants & collections</p>
+            </div>
+            <div class="icon-box">
+                <i class="fa fa-shopping-cart"></i>
+                <h3>Order Sync</h3>
+                <p>Import orders with customer matching</p>
+            </div>
+            <div class="icon-box">
+                <i class="fa fa-users"></i>
+                <h3>Customer Sync</h3>
+                <p>Import & update customer data</p>
+            </div>
+            <div class="icon-box">
+                <i class="fa fa-database"></i>
+                <h3>Inventory Sync</h3>
+                <p>Real-time stock synchronization</p>
+            </div>
+            <div class="icon-box">
+                <i class="fa fa-dashboard"></i>
+                <h3>Visual Dashboard</h3>
+                <p>Attractive kanban view with stats</p>
+            </div>
+            <div class="icon-box">
+                <i class="fa fa-plug"></i>
+                <h3>Multi-Store</h3>
+                <p>Connect multiple Shopify stores</p>
+            </div>
+        </div>
+
+        <h2><i class="fa fa-list-check"></i> Detailed Features</h2>
+        
+        <div class="feature-box">
+            <h3><i class="fa fa-store"></i> Store Management</h3>
+            <ul>
+                <li>Connect multiple Shopify stores</li>
+                <li>Secure API key management</li>
+                <li>Connection status monitoring</li>
+                <li>Pause/Resume sync operations</li>
+            </ul>
+        </div>
+
+        <div class="feature-box">
+            <h3><i class="fa fa-cubes"></i> Catalog Synchronization</h3>
+            <ul>
+                <li>Import products with variants</li>
+                <li>Sync product images & descriptions</li>
+                <li>Collection/category mapping</li>
+                <li>Automatic product updates</li>
+            </ul>
+        </div>
+
+        <div class="feature-box">
+            <h3><i class="fa fa-shopping-cart"></i> Sales Synchronization</h3>
+            <ul>
+                <li>Import orders in real-time</li>
+                <li>Customer matching & creation</li>
+                <li>Invoice generation</li>
+                <li>Order status tracking</li>
+            </ul>
+        </div>
+
+        <div class="feature-box">
+            <h3><i class="fa fa-users"></i> Customer Management</h3>
+            <ul>
+                <li>Import Shopify customers</li>
+                <li>Address synchronization</li>
+                <li>Customer segmentation</li>
+                <li>Contact history tracking</li>
+            </ul>
+        </div>
+
+        <h2><i class="fa fa-dashboard"></i> Dashboard Features</h2>
+        <div class="highlight">
+            <p><strong>Beautiful Kanban Dashboard</strong> with:</p>
+            <ul>
+                <li>Store status indicators (LIVE, ERROR, PAUSED, DRAFT)</li>
+                <li>Real-time statistics (Sales, Orders, Products, Customers)</li>
+                <li>Last sync timestamps</li>
+                <li>Quick sync buttons</li>
+                <li>Progress indicators</li>
+                <li>Color-coded status borders</li>
+            </ul>
+        </div>
+
+        <h2><i class="fa fa-image"></i> Screenshots</h2>
+        <img src="screenshots/screenshot1.png" alt="Dashboard View" class="screenshot">
+        <p style="text-align: center; color: #666;"><em>Shopify Dashboard - Connected Stores</em></p>
+        
+        <img src="screenshots/screenshot2.png" alt="Store Details" class="screenshot">
+        <p style="text-align: center; color: #666;"><em>Store Configuration & API Settings</em></p>
+
+        <h2><i class="fa fa-cogs"></i> Technical Information</h2>
+        <table>
+            <tr>
+                <th>Attribute</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Odoo Version</td>
+                <td>18.0</td>
+            </tr>
+            <tr>
+                <td>License</td>
+                <td>LGPL-3</td>
+            </tr>
+            <tr>
+                <td>Dependencies</td>
+                <td>base, sale_management, product, stock, mail, web</td>
+            </tr>
+            <tr>
+                <td>Installation</td>
+                <td>One-click install</td>
+            </tr>
+            <tr>
+                <td>Configuration</td>
+                <td>Easy setup with Shopify API credentials</td>
+            </tr>
+        </table>
+
+        <h2><i class="fa fa-download"></i> Installation & Setup</h2>
+        <ol style="line-height: 1.8; font-size: 1.05em;">
+            <li>Install the module from Apps menu</li>
+            <li>Go to <strong>Sales > Shopify > Stores</strong></li>
+            <li>Click <strong>New</strong> to add your Shopify store</li>
+            <li>Enter your <strong>Store Domain</strong> (e.g., yourstore.myshopify.com)</li>
+            <li>Enter <strong>API Key</strong> and <strong>API Secret</strong> from Shopify</li>
+            <li>Click <strong>Verify Connection</strong></li>
+        </ol>
+
+        <h2><i class="fa fa-headphones"></i> Support</h2>
+        <p style="font-size: 1.05em; line-height: 1.6;">
+            For support, feature requests, or customization:
+        </p>
+        <ul style="font-size: 1.05em; line-height: 1.6;">
+            <li><i class="fa fa-envelope"></i> Email: your-email@example.com</li>
+            <li><i class="fa fa-globe"></i> Website: https://your-website.com</li>
+        </ul>
+
+        <div style="text-align: center; padding: 30px 0; border-top: 2px solid #875A7B; margin-top: 30px;">
+            <p style="color: #666; font-size: 0.9em;">
+                <i class="fa fa-heart" style="color: #dc3545;"></i> 
+                Made with passion for Odoo community
+            </p>
+            <p style="color: #875A7B; font-weight: bold; font-size: 1.1em;">
+                © 2026 Salman Shahid. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

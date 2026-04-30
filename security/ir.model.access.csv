@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sync_store_user,Sync Store User,model_sync_store,base.group_user,1,1,1,1
+access_sync_catalog_user,Sync Catalog User,model_sync_catalog,base.group_user,1,1,1,1
+access_sync_catalog_variant_user,Sync Variant User,model_sync_catalog_variant,base.group_user,1,1,1,1
+access_sync_catalog_image_user,Sync Image User,model_sync_catalog_image,base.group_user,1,1,1,1
+access_sync_sale_user,Sync Sale User,model_sync_sale,base.group_user,1,1,1,1
+access_sync_sale_line_user,Sync Sale Line User,model_sync_sale_line,base.group_user,1,1,1,1
+access_sync_sale_fulfillment_user,Sync Fulfillment User,model_sync_sale_fulfillment,base.group_user,1,1,1,1
+access_sync_contact_user,Sync Contact User,model_sync_contact,base.group_user,1,1,1,1
+access_sync_contact_address_user,Sync Contact Address User,model_sync_contact_address,base.group_user,1,1,1,1
+access_sync_journal_user,Sync Journal User,model_sync_journal,base.group_user,1,1,1,1
+access_sync_wizard_user,Sync Wizard User,model_sync_wizard,base.group_user,1,1,1,1

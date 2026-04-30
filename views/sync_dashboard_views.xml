@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sync_store_dashboard_kanban" model="ir.ui.view">
+        <field name="name">sync.store.dashboard.kanban</field>
+        <field name="model">sync.store</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard o_bridge_dashboard" 
+                    default_group_by="state"
+                    quick_create="false"
+                    records_draggable="false">
+                <field name="name"/>
+                <field name="store_domain"/>
+                <field name="state"/>
+                <field name="total_sales"/>
+                <field name="total_orders"/>
+                <field name="total_products"/>
+                <field name="total_customers"/>
+                <field name="last_catalog_sync"/>
+                <field name="last_sale_sync"/>
+                <field name="last_contact_sync"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click" style="width: 100%; min-width: 500px;">
+                            <!-- Header -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="flex-grow-1">
+                                    <h4 class="mb-1"><strong><t t-esc="record.name.value"/></strong></h4>
+                                    <div class="text-muted">
+                                        <i class="fa fa-link me-1"></i>
+                                        <t t-esc="record.store_domain.value"/>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <span t-if="record.state.raw_value == 'connected'" class="badge bg-success px-3 py-2">LIVE</span>
+                                    <span t-if="record.state.raw_value == 'error'" class="badge bg-danger px-3 py-2">ERROR</span>
+                                    <span t-if="record.state.raw_value == 'paused'" class="badge bg-warning px-3 py-2">PAUSED</span>
+                                    <span t-if="record.state.raw_value == 'draft'" class="badge bg-secondary px-3 py-2">DRAFT</span>
+                                </div>
+                            </div>
+
+                            <!-- Metrics -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <i class="fa fa-dollar text-primary fa-lg mb-2"></i>
+                                        <div class="h4 mb-1 text-primary"><t t-esc="record.total_sales.value or '0.00'"/></div>
+                                        <small class="text-muted text-uppercase">Sales</small>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <i class="fa fa-shopping-cart text-success fa-lg mb-2"></i>
+                                        <div class="h4 mb-1 text-success"><t t-esc="record.total_orders.value or '0'"/></div>
+                                        <small class="text-muted text-uppercase">Orders</small>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <i class="fa fa-cubes text-info fa-lg mb-2"></i>
+                                        <div class="h4 mb-1 text-info"><t t-esc="record.total_products.value or '0'"/></div>
+                                        <small class="text-muted text-uppercase">Products</small>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="text-center p-3 bg-light rounded">
+                                        <i class="fa fa-users text-warning fa-lg mb-2"></i>
+                                        <div class="h4 mb-1 text-warning"><t t-esc="record.total_customers.value or '0'"/></div>
+                                        <small class="text-muted text-uppercase">Customers</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progress -->
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div t-attf-class="progress-bar progress-bar-striped #{record.state.raw_value == 'connected' ? 'bg-success' : record.state.raw_value == 'error' ? 'bg-danger' : 'bg-warning'}" 
+                                     role="progressbar" 
+                                     t-attf-style="width: #{record.state.raw_value == 'connected' ? '100%' : record.state.raw_value == 'error' ? '25%' : '60%'}">
+                                </div>
+                            </div>
+
+                            <!-- Sync Times -->
+                            <div class="d-flex justify-content-between mb-3 small">
+                                <div class="text-center flex-fill">
+                                    <i class="fa fa-cube text-info"></i>
+                                    <div class="mt-1"><strong>Products</strong></div>
+                                    <div class="text-muted"><t t-esc="record.last_catalog_sync.value or 'Never'"/></div>
+                                </div>
+                                <div class="text-center flex-fill">
+                                    <i class="fa fa-shopping-cart text-success"></i>
+                                    <div class="mt-1"><strong>Orders</strong></div>
+                                    <div class="text-muted"><t t-esc="record.last_sale_sync.value or 'Never'"/></div>
+                                </div>
+                                <div class="text-center flex-fill">
+                                    <i class="fa fa-user text-warning"></i>
+                                    <div class="mt-1"><strong>Customers</strong></div>
+                                    <div class="text-muted"><t t-esc="record.last_contact_sync.value or 'Never'"/></div>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary flex-fill" name="action_sync_catalog" type="object">
+                                    <i class="fa fa-refresh"></i> Sync Products
+                                </button>
+                                <button class="btn btn-outline-success flex-fill" name="action_sync_sales" type="object">
+                                    <i class="fa fa-shopping-cart"></i> Sync Orders
+                                </button>
+                                <button class="btn btn-outline-warning flex-fill" name="action_sync_contacts" type="object">
+                                    <i class="fa fa-users"></i> Sync Customers
+                                </button>
+                                <button class="btn btn-primary flex-fill" name="action_open_dashboard" type="object">
+                                    <i class="fa fa-dashboard"></i> View
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_sync_dashboard" model="ir.actions.act_window">
+        <field name="name">Shopify Dashboard</field>
+        <field name="res_model">sync.store</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="view_sync_store_dashboard_kanban"/>
+    </record>
+</odoo>

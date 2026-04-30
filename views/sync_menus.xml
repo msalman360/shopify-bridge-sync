@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_bridge_root" 
+              name="Shopify Bridge" 
+              sequence="25"
+              web_icon="bridge_shopify_sync,static/description/icon.png"/>
+    
+    <menuitem id="menu_bridge_dashboard" 
+              name="Dashboard" 
+              parent="menu_bridge_root"
+              action="action_sync_dashboard" 
+              sequence="10"/>
+    
+    <menuitem id="menu_bridge_stores" 
+              name="Stores" 
+              parent="menu_bridge_root"
+              action="action_sync_store" 
+              sequence="20"/>
+    
+    <menuitem id="menu_bridge_data" 
+              name="Data" 
+              parent="menu_bridge_root"
+              sequence="30"/>
+    
+    <menuitem id="menu_bridge_products" 
+              name="Products" 
+              parent="menu_bridge_data"
+              action="action_sync_catalog" 
+              sequence="10"/>
+    
+    <menuitem id="menu_bridge_orders" 
+              name="Orders" 
+              parent="menu_bridge_data"
+              action="action_sync_sale" 
+              sequence="20"/>
+    
+    <menuitem id="menu_bridge_customers" 
+              name="Customers" 
+              parent="menu_bridge_data"
+              action="action_sync_contact" 
+              sequence="30"/>
+    
+    <menuitem id="menu_bridge_ops" 
+              name="Operations" 
+              parent="menu_bridge_root"
+              sequence="40"/>
+    
+    <menuitem id="menu_bridge_journal" 
+              name="Sync Journal" 
+              parent="menu_bridge_ops"
+              action="action_sync_journal" 
+              sequence="10"/>
+    
+    <menuitem id="menu_bridge_wizard" 
+              name="Manual Sync" 
+              parent="menu_bridge_ops"
+              action="action_sync_wizard" 
+              sequence="20"/>
+</odoo>

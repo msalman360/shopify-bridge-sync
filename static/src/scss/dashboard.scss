@@ -1,0 +1,60 @@
+/* Shopify Dashboard - 2 Columns Side by Side */
+
+.o_kanban_view.o_bridge_dashboard {
+    
+    .o_kanban_renderer {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .o_kanban_group {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        padding: 8px !important;
+        
+        .o_kanban_record {
+            width: calc(50% - 16px) !important;
+            max-width: calc(50% - 16px) !important;
+            min-width: 450px !important;
+            margin: 8px !important;
+            flex: 0 0 calc(50% - 16px) !important;
+        }
+    }
+    
+    .oe_kanban_card {
+        width: 100% !important;
+        min-width: 450px !important;
+        padding: 20px !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 12px !important;
+        background: #fff !important;
+        
+        &:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+        }
+    }
+}
+
+/* Force 2 columns even on smaller screens */
+@media (max-width: 1400px) {
+    .o_kanban_view.o_bridge_dashboard {
+        .o_kanban_record {
+            width: calc(50% - 16px) !important;
+            flex: 0 0 calc(50% - 16px) !important;
+        }
+    }
+}
+
+/* Single column only on mobile */
+@media (max-width: 768px) {
+    .o_kanban_view.o_bridge_dashboard {
+        .o_kanban_record {
+            width: 100% !important;
+            flex: 0 0 100% !important;
+            margin: 8px 0 !important;
+        }
+    }
+}

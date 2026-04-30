@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- MAIN MENU -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_shopify_bridge_root"
+              name="Shopify Bridge"
+              web_icon="bridge_shopify_sync,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- DASHBOARD MENU -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_shopify_dashboard"
+              name="Dashboard"
+              parent="menu_shopify_bridge_root"
+              action="action_sync_dashboard"
+              sequence="1"/>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- STORES MENU -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_shopify_stores"
+              name="Stores"
+              parent="menu_shopify_bridge_root"
+              action="action_sync_store"
+              sequence="10"/>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- DATA MENU -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_shopify_data"
+              name="Data"
+              parent="menu_shopify_bridge_root"
+              sequence="20"/>
+
+    <menuitem id="menu_shopify_products"
+              name="Products"
+              parent="menu_shopify_data"
+              action="action_sync_catalog"
+              sequence="1"/>
+
+    <menuitem id="menu_shopify_orders"
+              name="Orders"
+              parent="menu_shopify_data"
+              action="action_sync_sale"
+              sequence="2"/>
+
+    <menuitem id="menu_shopify_customers"
+              name="Customers"
+              parent="menu_shopify_data"
+              action="action_sync_contact"
+              sequence="3"/>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- OPERATIONS MENU -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_shopify_operations"
+              name="Operations"
+              parent="menu_shopify_bridge_root"
+              sequence="30"/>
+
+    <menuitem id="menu_shopify_sync_journal"
+              name="Sync Journal"
+              parent="menu_shopify_operations"
+              action="action_sync_journal"
+              sequence="1"/>
+
+    <menuitem id="menu_shopify_wizard"
+              name="Sync Wizard"
+              parent="menu_shopify_operations"
+              action="action_sync_wizard"
+              sequence="2"/>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SETTINGS MENU -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_shopify_settings"
+              name="Settings"
+              parent="menu_shopify_bridge_root"
+              sequence="100"/>
+</odoo>

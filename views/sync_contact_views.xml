@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- SEARCH VIEW -->
+    <record id="view_sync_contact_search" model="ir.ui.view">
+        <field name="name">sync.contact.search</field>
+        <field name="model">sync.contact</field>
+        <field name="arch" type="xml">
+            <search string="Customers">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="remote_id"/>
+                <field name="shopify_customer_id"/>
+                <field name="company_name"/>
+                <field name="city"/>
+                <field name="country"/>
+                <field name="tags"/>
+                <separator/>
+                <filter string="Synced" name="synced" domain="[('sync_state', '=', 'synced')]"/>
+                <filter string="Pending" name="pending" domain="[('sync_state', '=', 'pending')]"/>
+                <filter string="Error" name="error" domain="[('sync_state', '=', 'error')]"/>
+                <separator/>
+                <filter string="Enabled" name="enabled" domain="[('state', '=', 'enabled')]"/>
+                <filter string="Disabled" name="disabled" domain="[('state', '=', 'disabled')]"/>
+                <filter string="Accepts Marketing" name="marketing" domain="[('accepts_marketing', '=', True)]"/>
+                <separator/>
+                <filter string="Has Orders" name="has_orders" domain="[('orders_count', '>', 0)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Store" name="group_store" context="{'group_by': 'store_id'}"/>
+                    <filter string="Sync State" name="group_state" context="{'group_by': 'sync_state'}"/>
+                    <filter string="Country" name="group_country" context="{'group_by': 'country'}"/>
+                    <filter string="State" name="group_status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_sync_contact" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">sync.contact</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_sync_contact_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No customers synced yet.</p>
+            <p>Sync customers from your Shopify store to get started.</p>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEW -->
+    <record id="view_sync_contact_kanban" model="ir.ui.view">
+        <field name="name">sync.contact.kanban</field>
+        <field name="model">sync.contact</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="image"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="sync_state"/>
+                <field name="store_id"/>
+                <field name="orders_count"/>
+                <field name="total_spent"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('sync.contact', 'image', record.id.raw_value)" alt="Customer"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="o_kanban_tags_section">
+                                    <span class="badge badge-pill" t-attf-class="badge {{ record.sync_state.raw_value == 'synced' ? 'badge-success' : (record.sync_state.raw_value == 'error' ? 'badge-danger' : 'badge-warning') }}">
+                                        <field name="sync_state"/>
+                                    </span>
+                                    <span t-if="record.accepts_marketing.raw_value" class="badge badge-info">Marketing</span>
+                                    <span t-if="record.auto_sync_enabled.raw_value" class="badge badge-primary">Auto</span>
+                                </div>
+                                <div><i class="fa fa-envelope text-muted"></i> <field name="email"/></div>
+                                <div><i class="fa fa-phone text-muted"></i> <field name="phone"/></div>
+                                <div><field name="store_id"/> • <field name="orders_count"/> orders • $<field name="total_spent"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_sync_contact_list" model="ir.ui.view">
+        <field name="name">sync.contact.list</field>
+        <field name="model">sync.contact</field>
+        <field name="arch" type="xml">
+            <list string="Customers" decoration-muted="sync_state == 'pending'" decoration-danger="sync_state == 'error'" decoration-success="sync_state == 'synced'">
+                <field name="image_small" widget="image" options="{'size': [40, 40]}" optional="show"/>
+                <field name="name"/>
+                <field name="email" optional="show"/>
+                <field name="phone" optional="show"/>
+                <field name="company_name" optional="show"/>
+                <field name="city" optional="show"/>
+                <field name="country" optional="show"/>
+                <field name="orders_count" optional="show"/>
+                <field name="total_spent" optional="show"/>
+                <field name="sync_state" widget="badge" decoration-success="sync_state == 'synced'" decoration-warning="sync_state == 'pending'" decoration-danger="sync_state == 'error'"/>
+                <field name="auto_sync_enabled" widget="boolean_toggle" optional="show"/>
+                <field name="last_synced" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_sync_contact_form" model="ir.ui.view">
+        <field name="name">sync.contact.form</field>
+        <field name="model">sync.contact</field>
+        <field name="arch" type="xml">
+            <form string="Customer">
+                <header>
+                    <button name="action_sync_from_shopify" type="object" string="Sync from Shopify" class="oe_highlight" icon="fa-refresh"/>
+                    <button name="action_sync_to_shopify" type="object" string="Sync to Shopify" icon="fa-upload"/>
+                    <button name="action_view_in_shopify" type="object" string="View in Shopify" icon="fa-external-link"/>
+                    <field name="sync_state" widget="statusbar" statusbar_visible="pending,synced,error"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Customer Name"/></h1>
+                    </div>
+                    <div class="oe_left">
+                        <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image_medium', 'size': [180, 180]}"/>
+                    </div>
+                    <group>
+                        <group string="Contact Information">
+                            <field name="store_id" options="{'no_create': True}"/>
+                            <field name="remote_id" readonly="1"/>
+                            <field name="shopify_customer_id"/>
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="company_name"/>
+                            <field name="tags" placeholder="tag1, tag2, tag3"/>
+                        </group>
+                        <group string="Account Status">
+                            <field name="state" widget="radio"/>
+                            <field name="accepts_marketing"/>
+                            <field name="verified_email"/>
+                            <field name="tax_exempt"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Default Address">
+                            <field name="address1"/>
+                            <field name="address2"/>
+                            <field name="city"/>
+                            <field name="province"/>
+                            <field name="province_code"/>
+                            <field name="country"/>
+                            <field name="country_code"/>
+                            <field name="zip"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </group>
+                        <group string="Financial">
+                            <field name="total_spent"/>
+                            <field name="orders_count"/>
+                            <field name="currency"/>
+                        </group>
+                    </group>
+                    <group string="Sync Settings">
+                        <field name="auto_sync_enabled" widget="boolean_toggle"/>
+                        <field name="sync_state"/>
+                        <field name="last_synced"/>
+                        <field name="last_error"/>
+                        <field name="sync_direction"/>
+                    </group>
+                    <notebook>
+                        <page string="Addresses">
+                            <field name="address_ids" mode="list">
+                                <list editable="bottom">
+                                    <field name="address1"/>
+                                    <field name="address2"/>
+                                    <field name="city"/>
+                                    <field name="province"/>
+                                    <field name="country"/>
+                                    <field name="zip"/>
+                                    <field name="phone"/>
+                                    <field name="default" widget="boolean_toggle"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="address1"/>
+                                            <field name="address2"/>
+                                            <field name="city"/>
+                                            <field name="province"/>
+                                            <field name="province_code"/>
+                                            <field name="country"/>
+                                            <field name="country_code"/>
+                                            <field name="zip"/>
+                                            <field name="phone"/>
+                                            <field name="default"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Customer notes..."/>
+                        </page>
+                        <page string="Raw Data">
+                            <field name="raw_data" widget="ace" options="{'mode': 'json'}" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

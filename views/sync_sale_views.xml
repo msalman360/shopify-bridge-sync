@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- SEARCH VIEW -->
+    <record id="view_sync_sale_search" model="ir.ui.view">
+        <field name="name">sync.sale.search</field>
+        <field name="model">sync.sale</field>
+        <field name="arch" type="xml">
+            <search string="Orders">
+                <field name="name"/>
+                <field name="remote_id"/>
+                <field name="shopify_order_id"/>
+                <field name="customer_name"/>
+                <field name="customer_email"/>
+                <field name="shipping_city"/>
+                <field name="shipping_country"/>
+                <field name="tags"/>
+                <separator/>
+                <filter string="Open" name="open" domain="[('order_status', '=', 'open')]"/>
+                <filter string="Closed" name="closed" domain="[('order_status', '=', 'closed')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('order_status', '=', 'cancelled')]"/>
+                <separator/>
+                <filter string="Paid" name="paid" domain="[('financial_status', '=', 'paid')]"/>
+                <filter string="Pending Payment" name="pending_payment" domain="[('financial_status', '=', 'pending')]"/>
+                <filter string="Refunded" name="refunded" domain="[('financial_status', '=', 'refunded')]"/>
+                <separator/>
+                <filter string="Fulfilled" name="fulfilled" domain="[('fulfillment_status', '=', 'fulfilled')]"/>
+                <filter string="Unfulfilled" name="unfulfilled" domain="[('fulfillment_status', '=', 'pending')]"/>
+                <separator/>
+                <filter string="Synced" name="synced" domain="[('sync_state', '=', 'synced')]"/>
+                <filter string="Error" name="error" domain="[('sync_state', '=', 'error')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Store" name="group_store" context="{'group_by': 'store_id'}"/>
+                    <filter string="Order Status" name="group_status" context="{'group_by': 'order_status'}"/>
+                    <filter string="Financial Status" name="group_financial" context="{'group_by': 'financial_status'}"/>
+                    <filter string="Fulfillment Status" name="group_fulfillment" context="{'group_by': 'fulfillment_status'}"/>
+                    <filter string="Order Date" name="group_date" context="{'group_by': 'order_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_sync_sale" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="res_model">sync.sale</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_sync_sale_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No orders synced yet.</p>
+            <p>Sync orders from your Shopify store to get started.</p>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEW -->
+    <record id="view_sync_sale_kanban" model="ir.ui.view">
+        <field name="name">sync.sale.kanban</field>
+        <field name="model">sync.sale</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="total_amount"/>
+                <field name="sync_state"/>
+                <field name="order_status"/>
+                <field name="financial_status"/>
+                <field name="fulfillment_status"/>
+                <field name="store_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                <div class="o_kanban_tags_section">
+                                    <span class="badge badge-pill" t-attf-class="badge {{ record.order_status.raw_value == 'open' ? 'badge-success' : (record.order_status.raw_value == 'cancelled' ? 'badge-danger' : 'badge-secondary') }}">
+                                        <field name="order_status"/>
+                                    </span>
+                                    <span class="badge badge-pill" t-attf-class="badge {{ record.financial_status.raw_value == 'paid' ? 'badge-success' : (record.financial_status.raw_value == 'refunded' ? 'badge-danger' : 'badge-warning') }}">
+                                        <field name="financial_status"/>
+                                    </span>
+                                    <span t-if="record.fulfillment_status.raw_value == 'fulfilled'" class="badge badge-info">Fulfilled</span>
+                                </div>
+                                <div><i class="fa fa-user text-muted"></i> <field name="customer_name"/></div>
+                                <div><i class="fa fa-envelope text-muted"></i> <field name="customer_email"/></div>
+                                <div><field name="store_id"/> • $<field name="total_amount"/> • <field name="currency"/></div>
+                                <div><field name="order_date"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_sync_sale_list" model="ir.ui.view">
+        <field name="name">sync.sale.list</field>
+        <field name="model">sync.sale</field>
+        <field name="arch" type="xml">
+            <list string="Orders" 
+                  decoration-muted="order_status == 'cancelled'" 
+                  decoration-danger="sync_state == 'error'"
+                  decoration-success="sync_state == 'synced'">
+                <field name="name"/>
+                <field name="store_id"/>
+                <field name="customer_name" optional="show"/>
+                <field name="customer_email" optional="show"/>
+                <field name="total_amount" optional="show"/>
+                <field name="currency" optional="show"/>
+                <field name="order_status" widget="badge" 
+                       decoration-success="order_status == 'open'" 
+                       decoration-danger="order_status == 'cancelled'"/>
+                <field name="financial_status" widget="badge"
+                       decoration-success="financial_status == 'paid'"
+                       decoration-warning="financial_status == 'pending'"
+                       decoration-danger="financial_status == 'refunded'"/>
+                <field name="fulfillment_status" optional="show"/>
+                <field name="sync_state" widget="badge" 
+                       decoration-success="sync_state == 'synced'" 
+                       decoration-warning="sync_state == 'pending'" 
+                       decoration-danger="sync_state == 'error'"/>
+                <field name="auto_sync_enabled" widget="boolean_toggle" optional="show"/>
+                <field name="order_date" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_sync_sale_form" model="ir.ui.view">
+        <field name="name">sync.sale.form</field>
+        <field name="model">sync.sale</field>
+        <field name="arch" type="xml">
+            <form string="Order">
+                <header>
+                    <button name="action_sync_from_shopify" type="object" string="Sync from Shopify" class="oe_highlight" icon="fa-refresh"/>
+                    <button name="action_sync_to_shopify" type="object" string="Sync to Shopify" icon="fa-upload"/>
+                    <button name="action_view_in_shopify" type="object" string="View in Shopify" icon="fa-external-link"/>
+                    <!-- CANCEL BUTTON - Only show if not already cancelled -->
+                    <button name="action_cancel_order" type="object" string="Cancel Order" icon="fa-times" 
+                            class="btn-danger" invisible="order_status == 'cancelled'"/>
+                    <field name="sync_state" widget="statusbar" statusbar_visible="pending,synced,error"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Order Info">
+                            <field name="store_id" options="{'no_create': True}"/>
+                            <field name="remote_id" readonly="1"/>
+                            <field name="shopify_order_id"/>
+                            <field name="order_date" readonly="1"/>
+                            <field name="processed_at" readonly="1"/>
+                            <field name="source_name" readonly="1"/>
+                        </group>
+                        <group string="Status">
+                            <field name="order_status" widget="radio"/>
+                            <field name="financial_status" widget="radio"/>
+                            <field name="fulfillment_status" widget="radio"/>
+                            <field name="cancelled_at" readonly="1"/>
+                            <field name="cancel_reason" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Customer">
+                            <field name="customer_name"/>
+                            <field name="customer_email" widget="email"/>
+                            <field name="customer_phone" widget="phone"/>
+                            <field name="customer_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Pricing">
+                            <field name="subtotal_price"/>
+                            <field name="total_tax"/>
+                            <field name="total_discounts"/>
+                            <field name="total_shipping"/>
+                            <field name="total_amount"/>
+                            <field name="currency"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Shipping Address">
+                            <field name="shipping_name"/>
+                            <field name="shipping_address1"/>
+                            <field name="shipping_address2"/>
+                            <field name="shipping_city"/>
+                            <field name="shipping_province"/>
+                            <field name="shipping_zip"/>
+                            <field name="shipping_country"/>
+                            <field name="shipping_phone"/>
+                        </group>
+                        <group string="Billing Address">
+                            <field name="billing_name"/>
+                            <field name="billing_address1"/>
+                            <field name="billing_address2"/>
+                            <field name="billing_city"/>
+                            <field name="billing_province"/>
+                            <field name="billing_zip"/>
+                            <field name="billing_country"/>
+                        </group>
+                    </group>
+
+                    <group string="Sync Settings">
+                        <field name="auto_sync_enabled" widget="boolean_toggle"/>
+                        <field name="sync_state"/>
+                        <field name="last_synced" readonly="1"/>
+                        <field name="last_error"/>
+                        <field name="sync_direction"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="line_ids" mode="list">
+                                <list editable="bottom">
+                                    <field name="title"/>
+                                    <field name="sku"/>
+                                    <field name="quantity"/>
+                                    <field name="price"/>
+                                    <field name="variant_id"/>
+                                    <field name="product_id"/>
+                                    <field name="fulfillment_status"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="title"/>
+                                            <field name="sku"/>
+                                            <field name="quantity"/>
+                                            <field name="price"/>
+                                            <field name="variant_id"/>
+                                            <field name="product_id"/>
+                                            <field name="fulfillment_status"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Fulfillments">
+                            <field name="fulfillment_ids" mode="list">
+                                <list editable="bottom">
+                                    <field name="status"/>
+                                    <field name="tracking_number"/>
+                                    <field name="tracking_company"/>
+                                    <field name="shipment_status"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="status"/>
+                                            <field name="tracking_number"/>
+                                            <field name="tracking_company"/>
+                                            <field name="shipment_status"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Order notes..."/>
+                            <field name="tags" placeholder="tag1, tag2, tag3"/>
+                        </page>
+                        <page string="Raw Data">
+                            <field name="raw_data" widget="ace" options="{'mode': 'json'}" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

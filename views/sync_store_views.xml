@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sync_store_list" model="ir.ui.view">
+        <field name="name">sync.store.list</field>
+        <field name="model">sync.store</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="store_domain"/>
+                <field name="state"/>
+                <field name="total_sales"/>
+                <field name="total_orders"/>
+                <field name="total_products"/>
+                <field name="total_customers"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_sync_store_form" model="ir.ui.view">
+        <field name="name">sync.store.form</field>
+        <field name="model">sync.store</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_verify_connection" type="object" string="Test Connection" class="oe_highlight"/>
+                    <button name="action_sync_catalog" type="object" string="Sync Products"/>
+                    <button name="action_sync_sales" type="object" string="Sync Orders"/>
+                    <button name="action_sync_contacts" type="object" string="Sync Customers"/>
+                    <button name="action_open_dashboard" type="object" string="Dashboard" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="store_domain"/>
+                            <field name="api_version"/>
+                            <field name="api_key"/>
+                            <field name="api_secret" password="True"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <group string="Statistics">
+                        <group>
+                            <field name="total_sales"/>
+                            <field name="total_orders"/>
+                        </group>
+                        <group>
+                            <field name="total_products"/>
+                            <field name="total_customers"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_sync_store" model="ir.actions.act_window">
+        <field name="name">Stores</field>
+        <field name="res_model">sync.store</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
