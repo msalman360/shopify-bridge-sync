@@ -89,7 +89,7 @@ For more information, visit our website.
     'auto_install': False,
     'assets': {
         'web.assets_backend': [
-            'bridge_shopify_sync/static/src/scss/dashboard.scss',
+            'bridge_shopify_sync/bridge_shopify_sync/static/src/scss/dashboard.scss',
         ],
     },
 }
