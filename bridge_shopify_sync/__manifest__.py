@@ -16,7 +16,7 @@
 #
 #     You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
 #     (LGPL v3) along with this program.
-#     If not, see <http://www.gnu.org/licenses/ >.
+#     If not, see <http://www.gnu.org/licenses/>.
 #
 # ############################################################################
 
@@ -61,9 +61,9 @@ For more information, visit our website.
     'author': 'Salman Shahid',
     'category': 'Sales',
     'maintainer': 'Salman Shahid',
-    'website': 'https://linksforeveryone.com ',
+    'website': 'https://linksforeveryone.com',
     'license': 'LGPL-3',
-    'price': 100.0,
+    'price': 117.71,
     'currency': 'USD',
     'depends': ['base', 'mail', 'sale_management', 'contacts'],
     'external_dependencies': {
