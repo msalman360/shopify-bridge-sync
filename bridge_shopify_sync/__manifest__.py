@@ -81,7 +81,7 @@ For more information, visit our website.
         'views/sync_menus.xml',
     ],
     'images': [
-        'static/description/banner.gif',
+        'static/description/banner.png',
         'static/description/icon.png',
     ],
     'installable': True,
