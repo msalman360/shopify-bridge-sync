@@ -2,878 +2,494 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --green:        #008060;
-            --green-light:  #00A67E;
-            --green-pale:   #E6F5F1;
-            --green-dark:   #004C3F;
-            --green-mid:    #00664D;
-            --text-dark:    #0D1F1A;
-            --text-mid:     #2D4A42;
-            --text-muted:   #5A7A72;
-            --border:       rgba(0,128,96,0.18);
-            --surface:      #F7FDFB;
-            --white:        #FFFFFF;
-            --font:         'Plus Jakarta Sans', sans-serif;
-            --mono:         'DM Mono', monospace;
-        }
-
-        body {
-            font-family: var(--font);
-            color: var(--text-dark);
-            background: var(--white);
-            font-size: 17px;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── ANIMATIONS ── */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(28px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-24px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes pulse-dot {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50%       { transform: scale(1.4); opacity: 0.7; }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50%       { transform: translateY(-8px); }
-        }
-        @keyframes gradient-shift {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes countUp {
-            from { opacity: 0; transform: scale(0.7); }
-            to   { opacity: 1; transform: scale(1); }
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ── HERO ── */
-        .hero {
-            background: linear-gradient(135deg, #004C3F 0%, #006B52 40%, #008060 70%, #00A67E 100%);
-            background-size: 200% 200%;
-            animation: gradient-shift 8s ease infinite;
-            padding: 80px 48px 72px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(0,166,126,0.25) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 100px;
-            padding: 6px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.9);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 28px;
-            animation: fadeUp 0.6s ease forwards;
-        }
-        .hero-badge .dot {
-            width: 7px; height: 7px;
-            background: #6EF0C0;
-            border-radius: 50%;
-            animation: pulse-dot 2s ease infinite;
-        }
-        .hero h1 {
-            font-size: clamp(38px, 6vw, 58px);
-            font-weight: 800;
-            color: #FFFFFF;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin-bottom: 20px;
-            animation: fadeUp 0.7s 0.1s ease both;
-        }
-        .hero h1 span {
-            color: #6EF0C0;
-        }
-        .hero p {
-            font-size: 19px;
-            color: rgba(255,255,255,0.80);
-            max-width: 600px;
-            margin: 0 auto 36px;
-            line-height: 1.6;
-            animation: fadeUp 0.7s 0.2s ease both;
-        }
-        .hero-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            animation: fadeUp 0.7s 0.3s ease both;
-        }
-        .hero-tag {
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.25);
-            border-radius: 100px;
-            padding: 7px 18px;
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.88);
-        }
-        .hero-img {
-            margin-top: 52px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.35);
-            animation: fadeUp 0.8s 0.4s ease both;
-        }
-        .hero-img img { display: block; width: 100%; }
-
-        /* ── SECTIONS ── */
-        section { padding: 72px 48px; }
-        .section-label {
-            display: inline-block;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--green);
-            background: var(--green-pale);
-            border-radius: 100px;
-            padding: 5px 14px;
-            margin-bottom: 14px;
-        }
-        h2.section-title {
-            font-size: clamp(28px, 4vw, 40px);
-            font-weight: 800;
-            color: var(--text-dark);
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-            margin-bottom: 14px;
-        }
-        h2.section-title span { color: var(--green); }
-        .section-sub {
-            font-size: 17px;
-            color: var(--text-muted);
-            max-width: 560px;
-            line-height: 1.65;
-        }
-
-        /* ── FEATURES GRID ── */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 48px;
-        }
-        .feature-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 32px 28px;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--green), var(--green-light));
-            border-radius: 20px 20px 0 0;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(0,128,96,0.4);
-            box-shadow: 0 20px 50px rgba(0,128,96,0.12);
-        }
-        .feature-card:hover::before { opacity: 1; }
-        .feature-icon {
-            width: 52px; height: 52px;
-            background: var(--green-pale);
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .feature-card h3 {
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 14px;
-            letter-spacing: -0.01em;
-        }
-        .feature-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .feature-card ul li {
-            font-size: 15px;
-            color: var(--text-mid);
-            padding: 5px 0;
-            padding-left: 22px;
-            position: relative;
-            line-height: 1.5;
-        }
-        .feature-card ul li::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 13px;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--green-light);
-        }
-
-        /* ── FEATURE ROWS (screenshot + text) ── */
-        .feature-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 56px;
-            align-items: center;
-            padding: 64px 48px;
-        }
-        .feature-row.reverse { direction: rtl; }
-        .feature-row.reverse > * { direction: ltr; }
-        .feature-row-img {
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1.5px solid var(--border);
-            box-shadow: 0 16px 48px rgba(0,128,96,0.10);
-            animation: float 5s ease-in-out infinite;
-        }
-        .feature-row-img img { display: block; width: 100%; }
-        .feature-row-text h3 {
-            font-size: clamp(22px, 3vw, 30px);
-            font-weight: 800;
-            color: var(--text-dark);
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-            line-height: 1.25;
-        }
-        .feature-row-text h3 span { color: var(--green); }
-        .feature-row-text p {
-            font-size: 16px;
-            color: var(--text-muted);
-            margin-bottom: 22px;
-            line-height: 1.7;
-        }
-        .feature-row-text ul { list-style: none; }
-        .feature-row-text ul li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 16px;
-            color: var(--text-mid);
-            padding: 7px 0;
-            border-bottom: 1px solid rgba(0,128,96,0.08);
-            line-height: 1.5;
-        }
-        .feature-row-text ul li:last-child { border-bottom: none; }
-        .check {
-            flex-shrink: 0;
-            width: 20px; height: 20px;
-            background: var(--green-pale);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin-top: 2px;
-        }
-        .check svg { width: 11px; height: 11px; stroke: var(--green); stroke-width: 2.5; fill: none; }
-
-        /* ── HIGHLIGHT BAND ── */
-        .highlight-band {
-            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
-            padding: 60px 48px;
-            text-align: center;
-        }
-        .highlight-band h2 {
-            font-size: clamp(26px, 4vw, 38px);
-            font-weight: 800;
-            color: #FFFFFF;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-        .highlight-band p {
-            font-size: 17px;
-            color: rgba(255,255,255,0.78);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.65;
-        }
-        .highlight-band p strong { color: #6EF0C0; }
-
-        /* ── STATS ── */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 48px;
-        }
-        .stat-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(0,128,96,0.10);
-        }
-        .stat-num {
-            font-size: 46px;
-            font-weight: 800;
-            color: var(--green);
-            line-height: 1;
-            letter-spacing: -0.03em;
-            margin-bottom: 8px;
-            animation: countUp 0.6s ease both;
-        }
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        /* ── STEPS ── */
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 48px;
-            position: relative;
-        }
-        .steps-grid::before {
-            content: '';
-            position: absolute;
-            top: 34px; left: 10%; right: 10%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--green-pale), var(--green-light), var(--green-pale));
-            z-index: 0;
-        }
-        .step-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 32px 22px 28px;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .step-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0,128,96,0.12);
-        }
-        .step-num {
-            width: 52px; height: 52px;
-            background: linear-gradient(135deg, var(--green), var(--green-light));
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-            font-weight: 800;
-            color: white;
-            margin: 0 auto 20px;
-            box-shadow: 0 8px 20px rgba(0,128,96,0.30);
-        }
-        .step-card h4 {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-        .step-card p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* ── TECH TABLE ── */
-        .tech-section { background: var(--surface); }
-        .tech-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 36px;
-            font-size: 16px;
-        }
-        .tech-table tr {
-            border-bottom: 1.5px solid var(--border);
-            transition: background 0.2s;
-        }
-        .tech-table tr:last-child { border-bottom: none; }
-        .tech-table tr:hover { background: var(--green-pale); }
-        .tech-table td {
-            padding: 18px 16px;
-            vertical-align: middle;
-        }
-        .tech-table td:first-child {
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            width: 30%;
-        }
-        .tech-table td:last-child {
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-        .tech-badge {
-            display: inline-block;
-            font-family: var(--mono);
-            font-size: 13px;
-            background: var(--green-pale);
-            color: var(--green-dark);
-            border-radius: 8px;
-            padding: 4px 12px;
-            font-weight: 500;
-        }
-        .price-val {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--green);
-            letter-spacing: -0.02em;
-        }
-
-        /* ── TOGGLE CALLOUT ── */
-        .callout {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            background: var(--green-pale);
-            border: 1.5px solid rgba(0,128,96,0.25);
-            border-radius: 18px;
-            padding: 28px 32px;
-            margin-top: 48px;
-        }
-        .callout-icon {
-            font-size: 30px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .callout h4 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--green-dark);
-            margin-bottom: 6px;
-        }
-        .callout p {
-            font-size: 15px;
-            color: var(--text-mid);
-            line-height: 1.65;
-        }
-
-        /* ── SUPPORT ── */
-        .support-section {
-            background: var(--text-dark);
-            padding: 72px 48px;
-            text-align: center;
-        }
-        .support-section h2 {
-            font-size: 34px;
-            font-weight: 800;
-            color: #FFFFFF;
-            margin-bottom: 14px;
-            letter-spacing: -0.02em;
-        }
-        .support-section p {
-            font-size: 17px;
-            color: rgba(255,255,255,0.65);
-            margin-bottom: 36px;
-        }
-        .support-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .support-card {
-            background: rgba(255,255,255,0.07);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 16px;
-            padding: 24px 22px;
-            text-align: left;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-        .support-card:hover { background: rgba(255,255,255,0.12); }
-        .support-card-icon {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-        .support-card h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.90);
-            margin-bottom: 4px;
-        }
-        .support-card p {
-            font-size: 13px;
-            color: rgba(255,255,255,0.50);
-            margin: 0;
-        }
-
-        /* ── FOOTER ── */
-        .footer {
-            background: var(--text-dark);
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding: 24px 48px;
-            text-align: center;
-            font-size: 13px;
-            color: rgba(255,255,255,0.35);
-        }
-
-        /* ── SECTION ALT BG ── */
-        .bg-surface { background: var(--surface); }
-
-        @media (max-width: 768px) {
-            section, .feature-row { padding: 48px 24px; }
-            .feature-row { grid-template-columns: 1fr; gap: 32px; }
-            .feature-row.reverse { direction: ltr; }
-            .stats-grid, .steps-grid { grid-template-columns: 1fr 1fr; }
-            .steps-grid::before { display: none; }
-            .support-cards { grid-template-columns: 1fr; }
-            .hero { padding: 56px 24px 48px; }
-        }
-    </style>
 </head>
 <body>
 
-<!-- ── HERO ── -->
-<div class="hero">
-    <div class="hero-badge">
-        <span class="dot"></span>
-        Odoo 18 · Now Live
-    </div>
-    <h1>Shopify <span>Bridge</span> Sync</h1>
-    <p>Two-way Shopify ↔ Odoo 18 integration. Products, orders &amp; customers — perfectly in sync, in real-time.</p>
-    <div class="hero-tags">
-        <span class="hero-tag">⚡ Auto Sync</span>
-        <span class="hero-tag">🛍️ Multi-Store</span>
-        <span class="hero-tag">⬡ Odoo 18</span>
-        <span class="hero-tag">🔄 Two-Way Sync</span>
-        <span class="hero-tag">📊 Dashboard</span>
-    </div>
-    <div class="hero-img">
-        <img src="banner.png" alt="Shopify Bridge Sync Banner"/>
-    </div>
-</div>
-
-<!-- ── FEATURES OVERVIEW ── -->
-<section class="bg-surface">
-    <div class="reveal">
-        <span class="section-label">Core Features</span>
-        <h2 class="section-title">Everything You Need to <span>Sync Shopify</span> with Odoo</h2>
-        <p class="section-sub">One module to handle your entire Shopify integration — products, orders, customers, and more — all synced automatically.</p>
-    </div>
-    <div class="features-grid">
-        <div class="feature-card reveal">
-            <div class="feature-icon">📦</div>
-            <h3>Product Synchronization</h3>
-            <ul>
-                <li>Import products with images, variants &amp; inventory</li>
-                <li>Auto-push product updates back to Shopify on save</li>
-                <li>SEO fields: title, description, handle, tags</li>
-                <li>Variant management with SKUs and pricing</li>
-                <li>Full product lifecycle management from Odoo</li>
-            </ul>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">🛒</div>
-            <h3>Order Management</h3>
-            <ul>
-                <li>Real-time order sync from Shopify to Odoo</li>
-                <li>Cancel orders directly from Odoo to Shopify</li>
-                <li>Track fulfillment status &amp; shipping details</li>
-                <li>View order lines, taxes, and discounts</li>
-                <li>Full order history with raw JSON debug</li>
-            </ul>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">👤</div>
-            <h3>Customer Sync</h3>
-            <ul>
-                <li>Import customers with full address details</li>
-                <li>Auto-sync customer information updates</li>
-                <li>Marketing preferences &amp; tax-exempt status</li>
-                <li>Multiple addresses per customer supported</li>
-                <li>Bidirectional contact management</li>
-            </ul>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">📊</div>
-            <h3>Dashboard &amp; Analytics</h3>
-            <ul>
-                <li>Visual store statistics dashboard</li>
-                <li>Total sales, orders, products &amp; customers</li>
-                <li>Last sync timestamps per entity type</li>
-                <li>Store connection status indicators</li>
-                <li>Sync journal for complete audit trail</li>
-            </ul>
+<!-- ═══════════════════════════════════════════
+     BANNER
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <div class="oe_demo oe_picture oe_screenshot">
+                <img src="banner.png" style="max-width:100%; border-radius:8px;"/>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ── FEATURE ROW 1: Products ── -->
-<section>
-    <div class="feature-row reveal">
-        <div class="feature-row-img">
-            <img src="feature_products.png" alt="Product Synchronization"/>
-        </div>
-        <div class="feature-row-text">
-            <span class="section-label">Products</span>
-            <h3>Seamless <span>Product</span> Synchronization</h3>
-            <p>Keep your entire product catalog perfectly in sync between Shopify and Odoo — automatically, with zero manual work.</p>
-            <ul>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Import products with images, variants &amp; inventory</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Auto-push updates back to Shopify on save</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> SEO fields: title, description, handle, tags</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Variant management with SKUs and pricing</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Full product lifecycle management</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<!-- ── FEATURE ROW 2: Orders ── -->
-<section class="bg-surface">
-    <div class="feature-row reverse reveal">
-        <div class="feature-row-img">
-            <img src="feature_orders.png" alt="Order Management"/>
-        </div>
-        <div class="feature-row-text">
-            <span class="section-label">Orders</span>
-            <h3>Real-Time <span>Order</span> Management</h3>
-            <p>Every Shopify order lands in Odoo instantly. Track, manage, and fulfill orders without switching platforms.</p>
-            <ul>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Real-time order sync from Shopify to Odoo</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Cancel orders directly from Odoo to Shopify</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Track fulfillment status &amp; shipping details</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> View order lines, taxes, and discounts</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Full order history with raw JSON debug data</li>
-            </ul>
+<!-- ═══════════════════════════════════════════
+     INTRO
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060; font-size:38px; font-weight:800; letter-spacing:-0.5px;">
+                Shopify Bridge Sync
+            </h2>
+            <h3 class="oe_slogan" style="font-size:20px; color:#2d4a42; font-weight:600;">
+                Two-way Shopify ↔ Odoo 18 Integration — Products, Orders &amp; Customers in Real-Time
+            </h3>
+            <p class="oe_mt16" style="font-size:17px; text-align:center; max-width:680px; margin:0 auto; color:#3d5a52; line-height:1.7;">
+                Connect your Shopify stores to Odoo and keep <strong>products, orders, and customers</strong>
+                perfectly synchronized in real-time — from a single, unified dashboard.
+                No manual exports, no CSV uploads, no hassle.
+            </p>
+            <!-- Tags row -->
+            <div style="text-align:center; margin-top:28px;">
+                <span style="display:inline-block; background:#008060; color:#fff; border-radius:20px; padding:6px 18px; font-size:13px; font-weight:700; margin:4px;">&#9889; Auto Sync</span>
+                <span style="display:inline-block; background:#008060; color:#fff; border-radius:20px; padding:6px 18px; font-size:13px; font-weight:700; margin:4px;">&#127978; Multi-Store</span>
+                <span style="display:inline-block; background:#008060; color:#fff; border-radius:20px; padding:6px 18px; font-size:13px; font-weight:700; margin:4px;">&#11042; Odoo 18</span>
+                <span style="display:inline-block; background:#008060; color:#fff; border-radius:20px; padding:6px 18px; font-size:13px; font-weight:700; margin:4px;">&#128257; Two-Way Sync</span>
+                <span style="display:inline-block; background:#008060; color:#fff; border-radius:20px; padding:6px 18px; font-size:13px; font-weight:700; margin:4px;">&#128202; Dashboard</span>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ── FEATURE ROW 3: Customers ── -->
-<section>
-    <div class="feature-row reveal">
-        <div class="feature-row-img">
-            <img src="feature_customers.png" alt="Customer Sync"/>
+<!-- ═══════════════════════════════════════════
+     FEATURES OVERVIEW — 4 CARDS
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060; font-size:32px; font-weight:800;">
+                Everything You Need to Sync Shopify with Odoo
+            </h2>
+            <p style="text-align:center; font-size:16px; color:#5a7a72; max-width:600px; margin:0 auto 32px;">
+                One module to handle your entire Shopify integration — products, orders, customers, and more.
+            </p>
         </div>
-        <div class="feature-row-text">
-            <span class="section-label">Customers</span>
-            <h3>Complete <span>Customer</span> Sync</h3>
-            <p>Your customer data stays consistent across both platforms — addresses, preferences, and contact details always up to date.</p>
-            <ul>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Import customers with full address details</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Auto-sync customer information updates</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Marketing preferences &amp; tax-exempt status</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Multiple addresses per customer supported</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Bidirectional contact management</li>
-            </ul>
+    </div>
+    <div class="oe_row oe_spaced">
+        <!-- Card 1 -->
+        <div class="oe_span3">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-top:4px solid #008060; border-radius:12px; padding:28px 22px; height:100%;">
+                <div style="font-size:32px; margin-bottom:14px;">&#128230;</div>
+                <h3 style="font-size:18px; font-weight:700; color:#0d1f1a; margin-bottom:14px;">Product Synchronization</h3>
+                <ul style="padding-left:18px; font-size:15px; color:#3d5a52; line-height:1.8;">
+                    <li>Import products with images, variants &amp; inventory</li>
+                    <li>Auto-push updates back to Shopify on save</li>
+                    <li>SEO fields: title, description, handle, tags</li>
+                    <li>Variant management with SKUs and pricing</li>
+                    <li>Full product lifecycle management</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="oe_span3">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-top:4px solid #008060; border-radius:12px; padding:28px 22px; height:100%;">
+                <div style="font-size:32px; margin-bottom:14px;">&#128722;</div>
+                <h3 style="font-size:18px; font-weight:700; color:#0d1f1a; margin-bottom:14px;">Order Management</h3>
+                <ul style="padding-left:18px; font-size:15px; color:#3d5a52; line-height:1.8;">
+                    <li>Real-time order sync from Shopify to Odoo</li>
+                    <li>Cancel orders directly from Odoo to Shopify</li>
+                    <li>Track fulfillment status &amp; shipping details</li>
+                    <li>View order lines, taxes, and discounts</li>
+                    <li>Full order history with raw JSON debug</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="oe_span3">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-top:4px solid #008060; border-radius:12px; padding:28px 22px; height:100%;">
+                <div style="font-size:32px; margin-bottom:14px;">&#128100;</div>
+                <h3 style="font-size:18px; font-weight:700; color:#0d1f1a; margin-bottom:14px;">Customer Sync</h3>
+                <ul style="padding-left:18px; font-size:15px; color:#3d5a52; line-height:1.8;">
+                    <li>Import customers with full address details</li>
+                    <li>Auto-sync customer information updates</li>
+                    <li>Marketing preferences &amp; tax-exempt status</li>
+                    <li>Multiple addresses per customer supported</li>
+                    <li>Bidirectional contact management</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="oe_span3">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-top:4px solid #008060; border-radius:12px; padding:28px 22px; height:100%;">
+                <div style="font-size:32px; margin-bottom:14px;">&#128202;</div>
+                <h3 style="font-size:18px; font-weight:700; color:#0d1f1a; margin-bottom:14px;">Dashboard &amp; Analytics</h3>
+                <ul style="padding-left:18px; font-size:15px; color:#3d5a52; line-height:1.8;">
+                    <li>Visual store statistics dashboard</li>
+                    <li>Total sales, orders, products &amp; customers</li>
+                    <li>Last sync timestamps per entity type</li>
+                    <li>Store connection status indicators</li>
+                    <li>Sync journal for complete audit trail</li>
+                </ul>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ── FEATURE ROW 4: Dashboard ── -->
-<section class="bg-surface">
-    <div class="feature-row reverse reveal">
-        <div class="feature-row-img">
-            <img src="feature_dashboard.png" alt="Dashboard &amp; Analytics"/>
+<!-- ═══════════════════════════════════════════
+     FEATURE ROW 1 — Products (img left)
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <img src="feature_products.png" class="oe_picture oe_screenshot" style="max-width:100%; border-radius:12px; border:2px solid #d0ede6;"/>
         </div>
-        <div class="feature-row-text">
-            <span class="section-label">Dashboard</span>
-            <h3>Powerful <span>Analytics</span> Dashboard</h3>
-            <p>Get a bird's-eye view of your store performance, sync status, and activity — all in one place.</p>
-            <ul>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Visual store statistics dashboard</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Total sales, orders, products &amp; customers at a glance</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Last sync timestamps per entity type</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Store connection status indicators</li>
-                <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span> Sync journal for complete audit trail</li>
+        <div class="oe_span6">
+            <div style="background:#008060; color:#fff; display:inline-block; border-radius:20px; padding:4px 16px; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px;">Products</div>
+            <h2 style="font-size:28px; font-weight:800; color:#0d1f1a; margin-bottom:14px; line-height:1.25; letter-spacing:-0.3px;">
+                Seamless <span style="color:#008060;">Product</span> Synchronization
+            </h2>
+            <p style="font-size:16px; color:#5a7a72; margin-bottom:20px; line-height:1.7;">
+                Keep your entire product catalog perfectly in sync between Shopify and Odoo — automatically, with zero manual work.
+            </p>
+            <ul style="list-style:none; padding:0; font-size:16px; color:#2d4a42;">
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Import products with images, variants &amp; inventory
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Auto-push product updates back to Shopify on save
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> SEO fields: title, description, handle, tags
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Variant management with SKUs and pricing
+                </li>
+                <li style="padding:9px 0; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Full product lifecycle management from Odoo
+                </li>
             </ul>
         </div>
     </div>
 </section>
 
-<!-- ── AUTO SYNC BAND ── -->
-<div class="highlight-band reveal">
-    <h2>⚡ Auto Sync — Changes in Odoo? Shopify Gets Them Instantly.</h2>
-    <p>Any update you make in Odoo — product price, stock, customer info — is <strong>automatically pushed</strong> to your Shopify store. No manual exports. No CSV uploads. Toggle Auto Sync per record for full control.</p>
-</div>
-
-<!-- ── STATS ── -->
-<section>
-    <div class="reveal">
-        <span class="section-label">By the Numbers</span>
-        <h2 class="section-title">Built to <span>Scale</span> With You</h2>
-    </div>
-    <div class="stats-grid">
-        <div class="stat-card reveal">
-            <div class="stat-num">3</div>
-            <div class="stat-label">Sync Entities</div>
+<!-- ═══════════════════════════════════════════
+     FEATURE ROW 2 — Orders (text left)
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <div style="background:#008060; color:#fff; display:inline-block; border-radius:20px; padding:4px 16px; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px;">Orders</div>
+            <h2 style="font-size:28px; font-weight:800; color:#0d1f1a; margin-bottom:14px; line-height:1.25; letter-spacing:-0.3px;">
+                Real-Time <span style="color:#008060;">Order</span> Management
+            </h2>
+            <p style="font-size:16px; color:#5a7a72; margin-bottom:20px; line-height:1.7;">
+                Every Shopify order lands in Odoo instantly. Track, manage, and fulfill orders without ever switching platforms.
+            </p>
+            <ul style="list-style:none; padding:0; font-size:16px; color:#2d4a42;">
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Real-time order sync from Shopify to Odoo
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Cancel orders directly from Odoo to Shopify
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Track fulfillment status &amp; shipping details
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> View order lines, taxes, and discounts
+                </li>
+                <li style="padding:9px 0; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Full order history with raw JSON debug data
+                </li>
+            </ul>
         </div>
-        <div class="stat-card reveal">
-            <div class="stat-num">∞</div>
-            <div class="stat-label">Stores Supported</div>
-        </div>
-        <div class="stat-card reveal">
-            <div class="stat-num">18</div>
-            <div class="stat-label">Odoo Version</div>
-        </div>
-        <div class="stat-card reveal">
-            <div class="stat-num">$117</div>
-            <div class="stat-label">One-Time Price</div>
-        </div>
-    </div>
-    <div class="callout reveal">
-        <div class="callout-icon">🔄</div>
-        <div>
-            <h4>Toggle Sync Per Record</h4>
-            <p>Need fine-grained control? Enable or disable automatic syncing on a <strong>per-record basis</strong> — giving you full flexibility over what gets pushed to Shopify and what stays local in Odoo. Perfect for draft products, test customers, or orders in review.</p>
+        <div class="oe_span6">
+            <img src="feature_orders.png" class="oe_picture oe_screenshot" style="max-width:100%; border-radius:12px; border:2px solid #e8f5f1;"/>
         </div>
     </div>
 </section>
 
-<!-- ── STEPS ── -->
-<section class="bg-surface">
-    <div class="reveal" style="text-align:center;">
-        <span class="section-label">Setup Guide</span>
-        <h2 class="section-title">Get Started in <span>4 Simple Steps</span></h2>
-        <p class="section-sub" style="margin:0 auto;">No technical expertise required. Up and running in minutes.</p>
-    </div>
-    <div class="steps-grid">
-        <div class="step-card reveal">
-            <div class="step-num">1</div>
-            <h4>Install Module</h4>
-            <p>Install Shopify Bridge Sync from Odoo Apps. Appears under your Apps menu after installation.</p>
+<!-- ═══════════════════════════════════════════
+     FEATURE ROW 3 — Customers (img left)
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <img src="feature_customers.png" class="oe_picture oe_screenshot" style="max-width:100%; border-radius:12px; border:2px solid #d0ede6;"/>
         </div>
-        <div class="step-card reveal">
-            <div class="step-num">2</div>
-            <h4>Connect Store</h4>
-            <p>Enter your Shopify store URL and API credentials. Supports multiple stores from one Odoo instance.</p>
-        </div>
-        <div class="step-card reveal">
-            <div class="step-num">3</div>
-            <h4>Run Initial Sync</h4>
-            <p>Import all existing products, orders and customers from Shopify into Odoo in one click.</p>
-        </div>
-        <div class="step-card reveal">
-            <div class="step-num">4</div>
-            <h4>Enable Auto Sync</h4>
-            <p>Turn on Auto Sync globally or per record — every Odoo change is automatically reflected in Shopify.</p>
+        <div class="oe_span6">
+            <div style="background:#008060; color:#fff; display:inline-block; border-radius:20px; padding:4px 16px; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px;">Customers</div>
+            <h2 style="font-size:28px; font-weight:800; color:#0d1f1a; margin-bottom:14px; line-height:1.25; letter-spacing:-0.3px;">
+                Complete <span style="color:#008060;">Customer</span> Sync
+            </h2>
+            <p style="font-size:16px; color:#5a7a72; margin-bottom:20px; line-height:1.7;">
+                Your customer data stays consistent across both platforms — addresses, preferences, and contact details always up to date.
+            </p>
+            <ul style="list-style:none; padding:0; font-size:16px; color:#2d4a42;">
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Import customers with full address details
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Auto-sync customer information updates
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Marketing preferences &amp; tax-exempt status
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #d0ede6; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Multiple addresses per customer supported
+                </li>
+                <li style="padding:9px 0; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Bidirectional contact management
+                </li>
+            </ul>
         </div>
     </div>
 </section>
 
-<!-- ── TECHNICAL DETAILS ── -->
-<section class="tech-section">
-    <div class="reveal">
-        <span class="section-label">Technical Details</span>
-        <h2 class="section-title">Built for <span>Odoo 18</span></h2>
+<!-- ═══════════════════════════════════════════
+     FEATURE ROW 4 — Dashboard (text left)
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6">
+            <div style="background:#008060; color:#fff; display:inline-block; border-radius:20px; padding:4px 16px; font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px;">Dashboard</div>
+            <h2 style="font-size:28px; font-weight:800; color:#0d1f1a; margin-bottom:14px; line-height:1.25; letter-spacing:-0.3px;">
+                Powerful <span style="color:#008060;">Analytics</span> Dashboard
+            </h2>
+            <p style="font-size:16px; color:#5a7a72; margin-bottom:20px; line-height:1.7;">
+                Get a bird's-eye view of your store performance, sync status, and activity — all in one place.
+            </p>
+            <ul style="list-style:none; padding:0; font-size:16px; color:#2d4a42;">
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Visual store statistics dashboard
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Total sales, orders, products &amp; customers at a glance
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Last sync timestamps per entity type
+                </li>
+                <li style="padding:9px 0; border-bottom:1px solid #e8f5f1; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Store connection status indicators
+                </li>
+                <li style="padding:9px 0; display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#008060; font-weight:800; flex-shrink:0;">&#10003;</span> Sync journal for complete audit trail
+                </li>
+            </ul>
+        </div>
+        <div class="oe_span6">
+            <img src="feature_dashboard.png" class="oe_picture oe_screenshot" style="max-width:100%; border-radius:12px; border:2px solid #e8f5f1;"/>
+        </div>
     </div>
-    <table class="tech-table reveal">
-        <tr>
-            <td>Odoo Version</td>
-            <td><span class="tech-badge">18.0</span></td>
-        </tr>
-        <tr>
-            <td>Module Name</td>
-            <td><span class="tech-badge">bridge_shopify_sync</span></td>
-        </tr>
-        <tr>
-            <td>Dependencies</td>
-            <td><span class="tech-badge">base</span> &nbsp;<span class="tech-badge">mail</span> &nbsp;<span class="tech-badge">sale_management</span> &nbsp;<span class="tech-badge">contacts</span></td>
-        </tr>
-        <tr>
-            <td>Python Library</td>
-            <td><span class="tech-badge">requests</span></td>
-        </tr>
-        <tr>
-            <td>License</td>
-            <td><span class="tech-badge">LGPL-3</span></td>
-        </tr>
-        <tr>
-            <td>Multi-Store</td>
-            <td>✅ Yes — unlimited stores</td>
-        </tr>
-        <tr>
-            <td>Price</td>
-            <td><span class="price-val">$117 USD</span> &nbsp;<span style="font-size:14px; color:var(--text-muted);">One-time purchase</span></td>
-        </tr>
-    </table>
 </section>
 
-<!-- ── SUPPORT ── -->
-<div class="support-section">
-    <h2>We're Here to Help</h2>
-    <p>For help with installation, configuration, or any sync issues — our team responds fast.</p>
-    <div class="support-cards">
-        <a class="support-card" href="mailto:info@linksforeveryone.com">
-            <div class="support-card-icon">📧</div>
-            <h4>Email Support</h4>
-            <p>info@linksforeveryone.com</p>
-        </a>
-        <a class="support-card" href="https://linksforeveryone.com">
-            <div class="support-card-icon">🌐</div>
-            <h4>Website</h4>
-            <p>linksforeveryone.com</p>
-        </a>
+<!-- ═══════════════════════════════════════════
+     AUTO SYNC HIGHLIGHT
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <div style="background:#004C3F; border-radius:16px; padding:48px 40px; text-align:center;">
+                <h2 style="font-size:30px; font-weight:800; color:#ffffff; margin-bottom:14px; letter-spacing:-0.3px;">
+                    &#9889; Auto Sync — Changes in Odoo? Shopify Gets Them Instantly.
+                </h2>
+                <p style="font-size:17px; color:rgba(255,255,255,0.80); max-width:620px; margin:0 auto; line-height:1.7;">
+                    Any update you make in Odoo — product price, stock, customer info — is automatically pushed to your Shopify store.
+                    No manual exports. No CSV uploads. Toggle Auto Sync per record for full control.
+                </p>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-<!-- ── FOOTER ── -->
-<div class="footer">
-    Shopify Bridge Sync · by Links For Everyone · Licensed under LGPL-3 · Odoo 18
-</div>
+<!-- ═══════════════════════════════════════════
+     STATS — 4 NUMBERS
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-radius:14px; padding:32px 16px;">
+                <div style="font-size:50px; font-weight:800; color:#008060; line-height:1; letter-spacing:-2px; margin-bottom:8px;">3</div>
+                <div style="font-size:13px; font-weight:700; color:#5a7a72; text-transform:uppercase; letter-spacing:0.08em;">Sync Entities</div>
+            </div>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-radius:14px; padding:32px 16px;">
+                <div style="font-size:50px; font-weight:800; color:#008060; line-height:1; letter-spacing:-2px; margin-bottom:8px;">&#8734;</div>
+                <div style="font-size:13px; font-weight:700; color:#5a7a72; text-transform:uppercase; letter-spacing:0.08em;">Stores Supported</div>
+            </div>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-radius:14px; padding:32px 16px;">
+                <div style="font-size:50px; font-weight:800; color:#008060; line-height:1; letter-spacing:-2px; margin-bottom:8px;">18</div>
+                <div style="font-size:13px; font-weight:700; color:#5a7a72; text-transform:uppercase; letter-spacing:0.08em;">Odoo Version</div>
+            </div>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#f7fdfb; border:2px solid #d0ede6; border-radius:14px; padding:32px 16px;">
+                <div style="font-size:50px; font-weight:800; color:#008060; line-height:1; letter-spacing:-2px; margin-bottom:8px;">$117</div>
+                <div style="font-size:13px; font-weight:700; color:#5a7a72; text-transform:uppercase; letter-spacing:0.08em;">One-Time Price</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-<script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, i * 80);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
+<!-- ═══════════════════════════════════════════
+     MULTI-STORE
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060; font-size:30px; font-weight:800;">&#127978; Multi-Store Support</h2>
+            <p style="text-align:center; font-size:17px; color:#3d5a52; max-width:640px; margin:0 auto; line-height:1.7;">
+                Connect and manage <strong>multiple Shopify stores</strong> from a single Odoo instance.
+                Each store has its own independent sync settings, credentials, and tracking journal.
+            </p>
+        </div>
+    </div>
+</section>
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
+<!-- ═══════════════════════════════════════════
+     TOGGLE CALLOUT
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <div style="background:#e6f5f1; border-left:5px solid #008060; border-radius:0 12px 12px 0; padding:28px 32px; max-width:780px; margin:0 auto;">
+                <h3 style="font-size:20px; font-weight:700; color:#004C3F; margin-bottom:10px;">&#128257; Toggle Sync Per Record</h3>
+                <p style="font-size:16px; color:#2d4a42; margin:0; line-height:1.7;">
+                    Need fine-grained control? Enable or disable automatic syncing on a <strong>per-record basis</strong> —
+                    giving you full flexibility over what gets pushed to Shopify and what stays local in Odoo.
+                    Perfect for draft products, test customers, or orders under review.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SETUP STEPS
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060; font-size:30px; font-weight:800;">Get Started in 4 Simple Steps</h2>
+            <p style="text-align:center; font-size:16px; color:#5a7a72; max-width:500px; margin:0 auto 36px;">
+                No technical expertise required. Up and running in minutes.
+            </p>
+        </div>
+    </div>
+    <div class="oe_row oe_spaced">
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#008060; color:white; width:52px; height:52px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; margin-bottom:16px;">1</div>
+            <h4 style="font-size:17px; font-weight:700; color:#0d1f1a; margin-bottom:8px;">Install the Module</h4>
+            <p style="font-size:14px; color:#5a7a72; line-height:1.6;">
+                Install Shopify Bridge Sync from Odoo Apps. It will appear under your Apps menu after installation.
+            </p>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#008060; color:white; width:52px; height:52px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; margin-bottom:16px;">2</div>
+            <h4 style="font-size:17px; font-weight:700; color:#0d1f1a; margin-bottom:8px;">Connect Your Store</h4>
+            <p style="font-size:14px; color:#5a7a72; line-height:1.6;">
+                Enter your Shopify store URL and API credentials. Supports multiple stores from a single Odoo instance.
+            </p>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#008060; color:white; width:52px; height:52px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; margin-bottom:16px;">3</div>
+            <h4 style="font-size:17px; font-weight:700; color:#0d1f1a; margin-bottom:8px;">Run Initial Sync</h4>
+            <p style="font-size:14px; color:#5a7a72; line-height:1.6;">
+                Import your existing products, orders, and customers from Shopify into Odoo with a single click.
+            </p>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:16px;">
+            <div style="background:#008060; color:white; width:52px; height:52px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; margin-bottom:16px;">4</div>
+            <h4 style="font-size:17px; font-weight:700; color:#0d1f1a; margin-bottom:8px;">Enable Auto Sync</h4>
+            <p style="font-size:14px; color:#5a7a72; line-height:1.6;">
+                Turn on Auto Sync per record or globally — every Odoo change is automatically reflected in Shopify.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TECHNICAL DETAILS TABLE
+═══════════════════════════════════════════ -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060; font-size:30px; font-weight:800;">&#128295; Technical Details</h2>
+        </div>
+    </div>
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6" style="padding:0 20px;">
+            <table style="width:100%; border-collapse:collapse; font-size:15px;">
+                <tr style="border-bottom:1.5px solid #d0ede6;">
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; width:42%;">Odoo Version</td>
+                    <td style="padding:14px 10px;"><span style="background:#e6f5f1; color:#004C3F; border-radius:6px; padding:4px 12px; font-size:13px; font-weight:700; font-family:monospace;">18.0</span></td>
+                </tr>
+                <tr style="border-bottom:1.5px solid #d0ede6;">
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em;">Module Name</td>
+                    <td style="padding:14px 10px;"><span style="background:#e6f5f1; color:#004C3F; border-radius:6px; padding:4px 12px; font-size:13px; font-weight:700; font-family:monospace;">bridge_shopify_sync</span></td>
+                </tr>
+                <tr style="border-bottom:1.5px solid #d0ede6;">
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em;">Python Library</td>
+                    <td style="padding:14px 10px;"><span style="background:#e6f5f1; color:#004C3F; border-radius:6px; padding:4px 12px; font-size:13px; font-weight:700; font-family:monospace;">requests</span></td>
+                </tr>
+                <tr>
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em;">License</td>
+                    <td style="padding:14px 10px;"><span style="background:#e6f5f1; color:#004C3F; border-radius:6px; padding:4px 12px; font-size:13px; font-weight:700; font-family:monospace;">LGPL-3</span></td>
+                </tr>
+            </table>
+        </div>
+        <div class="oe_span6" style="padding:0 20px;">
+            <table style="width:100%; border-collapse:collapse; font-size:15px;">
+                <tr style="border-bottom:1.5px solid #d0ede6;">
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; width:42%;">Dependencies</td>
+                    <td style="padding:14px 10px; color:#2d4a42; font-size:14px;">base, mail, sale_management, contacts</td>
+                </tr>
+                <tr style="border-bottom:1.5px solid #d0ede6;">
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em;">Multi-Store</td>
+                    <td style="padding:14px 10px; color:#2d4a42;">&#9989; Yes — unlimited stores</td>
+                </tr>
+                <tr style="border-bottom:1.5px solid #d0ede6;">
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em;">Auto Install</td>
+                    <td style="padding:14px 10px; color:#2d4a42;">No — manual installation</td>
+                </tr>
+                <tr>
+                    <td style="padding:14px 10px; color:#5a7a72; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:0.05em;">Price</td>
+                    <td style="padding:14px 10px;">
+                        <span style="font-size:26px; font-weight:800; color:#008060; letter-spacing:-1px;">$117</span>
+                        <span style="font-size:13px; color:#5a7a72; margin-left:6px;">One-time purchase</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SUPPORT
+═══════════════════════════════════════════ -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060; font-size:30px; font-weight:800;">&#128172; We're Here to Help</h2>
+            <p style="text-align:center; font-size:16px; color:#3d5a52; margin-bottom:32px; line-height:1.7;">
+                For help with installation, configuration, or sync issues — our team responds fast.<br/>
+                Please include your Odoo version, module version, and a description of the issue when reaching out.
+            </p>
+        </div>
+    </div>
+    <div class="oe_row oe_spaced">
+        <div class="oe_span6" style="padding:0 20px;">
+            <div style="background:#ffffff; border:2px solid #d0ede6; border-radius:14px; padding:28px 26px; text-align:center;">
+                <div style="font-size:28px; margin-bottom:12px;">&#128231;</div>
+                <h4 style="font-size:17px; font-weight:700; color:#0d1f1a; margin-bottom:6px;">Email Support</h4>
+                <a href="mailto:info@linksforeveryone.com" style="color:#008060; font-size:16px; font-weight:600; text-decoration:none;">info@linksforeveryone.com</a>
+            </div>
+        </div>
+        <div class="oe_span6" style="padding:0 20px;">
+            <div style="background:#ffffff; border:2px solid #d0ede6; border-radius:14px; padding:28px 26px; text-align:center;">
+                <div style="font-size:28px; margin-bottom:12px;">&#127760;</div>
+                <h4 style="font-size:17px; font-weight:700; color:#0d1f1a; margin-bottom:6px;">Website</h4>
+                <a href="https://linksforeveryone.com" style="color:#008060; font-size:16px; font-weight:600; text-decoration:none;">linksforeveryone.com</a>
+            </div>
+        </div>
+    </div>
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <p style="text-align:center; font-size:13px; color:#7a9a92; margin-top:16px;">
+                Shopify Bridge Sync &middot; by Links For Everyone &middot; Licensed under LGPL-3 &middot; Odoo 18
+            </p>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>
