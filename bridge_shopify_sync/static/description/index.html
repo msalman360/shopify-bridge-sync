@@ -2,55 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <style>
-        /* ── Color Theme Override ──────────────────────────────────────────
-           Original purple #714B67  →  Shopify green #008060
-           Accent highlights        →  #00A67E  (lighter tint)
-           Background tint          →  #E6F5F1  (was #f3edf7)
-           Border accent            →  #008060  (was #714B67)
-        ─────────────────────────────────────────────────────────────────── */
-        :root {
-            --brand:        #008060;
-            --brand-light:  #00A67E;
-            --brand-bg:     #E6F5F1;
-            --brand-dark:   #004C3F;
-            --step-bg:      #008060;
-        }
-
-        /* Slogan headings */
-        h2.oe_slogan[style*="714B67"],
-        h2.oe_slogan[style*="color:#714B67"],
-        h2[style*="color:#714B67"],
-        h2[style*="714B67"] {
-            color: var(--brand) !important;
-        }
-
-        /* Feature sub-headings */
-        h2[style*="font-size:22px"],
-        h2[style*="22px"] {
-            color: var(--brand) !important;
-        }
-
-        /* Auto-sync highlight box */
-        div[style*="f3edf7"] {
-            background: var(--brand-bg) !important;
-            border-left-color: var(--brand) !important;
-        }
-
-        /* Step number circles */
-        div[style*="background:#714B67"] {
-            background: var(--step-bg) !important;
-        }
-
-        /* Links */
-        a { color: var(--brand); }
-        a:hover { color: var(--brand-dark); }
-
-        /* Extra polish */
-        .oe_slogan { letter-spacing: -0.01em; }
-        ul li { margin-bottom: 6px; line-height: 1.55; }
-        p { line-height: 1.65; }
-    </style>
 </head>
 <body>
 
@@ -70,11 +21,11 @@
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
             <h2 class="oe_slogan" style="color:#008060;">Shopify Bridge Sync</h2>
-            <h3 class="oe_slogan">Connect Shopify to Odoo 18 — Products, Orders &amp; Customers in Real-Time</h3>
+            <h3 class="oe_slogan">Two-way Shopify ↔ Odoo 18 Integration — Products, Orders &amp; Customers in Real-Time</h3>
             <p class="oe_mt16" style="font-size:16px; text-align:center; max-width:720px; margin:0 auto;">
-                Manage your entire Shopify integration from a single Odoo dashboard.
-                Auto-sync products, orders, and customers across multiple stores —
-                no manual exports, no CSV uploads, no hassle.
+                Connect your Shopify stores to Odoo and keep <strong>products, orders, and customers</strong>
+                perfectly synchronized in real-time — from a single, unified dashboard.
+                No manual exports, no CSV uploads, no hassle.
             </p>
         </div>
     </div>
@@ -94,9 +45,6 @@
                 <li>SEO fields: title, description, handle, tags</li>
                 <li>Variant management with SKUs and pricing</li>
                 <li>Full product lifecycle management from Odoo</li>
-                <li>Automated product mapping via SKU / Internal Reference</li>
-                <li>Synchronize custom fields and product translations</li>
-                <li>Exclude specific products from synchronization</li>
             </ul>
         </div>
     </div>
@@ -111,11 +59,8 @@
                 <li>Real-time order sync from Shopify to Odoo</li>
                 <li>Cancel orders directly from Odoo to Shopify</li>
                 <li>Track fulfillment status &amp; shipping details</li>
-                <li>View order lines, taxes, discounts and fraud scores</li>
+                <li>View order lines, taxes, and discounts</li>
                 <li>Full order history with raw JSON debug data</li>
-                <li>Auto-workflow: confirm, invoice &amp; ship orders automatically</li>
-                <li>Support for partial fulfilments and guest orders</li>
-                <li>Import orders from specific Shopify sales channels</li>
             </ul>
         </div>
         <div class="oe_span6">
@@ -138,57 +83,32 @@
                 <li>Marketing preferences &amp; tax-exempt status</li>
                 <li>Multiple addresses per customer supported</li>
                 <li>Bidirectional contact management</li>
-                <li>Intelligent deduplication using email, name &amp; phone</li>
-                <li>Synchronize customer metafields to Odoo fields</li>
-                <li>Manual customer mapping for B2B businesses</li>
             </ul>
         </div>
     </div>
 </section>
 
-<!-- FEATURE 4: Inventory -->
+<!-- FEATURE 4: Dashboard -->
 <section class="oe_container oe_dark">
     <div class="oe_row oe_spaced">
-        <div class="oe_span6">
-            <h2 class="oe_slogan" style="text-align:left; font-size:22px; color:#008060;">&#128201; Inventory Control</h2>
-            <ul>
-                <li>Real-time or scheduled stock synchronization</li>
-                <li>Choose quantity field: Free to Use, On Hand, or Forecasted</li>
-                <li>Multi-location: map Odoo warehouses to Shopify locations</li>
-                <li>Exclude specific products from stock sync</li>
-                <li>Support for Bill of Materials quantity calculations</li>
-                <li>Manual "Export Inventory Now" button for instant push</li>
-            </ul>
-        </div>
-        <div class="oe_span6">
-            <img src="feature_dashboard.png" class="oe_picture oe_screenshot" style="max-width:100%;"/>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURE 5: Dashboard -->
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span6">
-            <img src="feature_dashboard.png" class="oe_picture oe_screenshot" style="max-width:100%;"/>
-        </div>
         <div class="oe_span6">
             <h2 class="oe_slogan" style="text-align:left; font-size:22px; color:#008060;">&#128202; Dashboard &amp; Analytics</h2>
             <ul>
                 <li>Visual store statistics dashboard</li>
                 <li>Total sales, orders, products &amp; customers at a glance</li>
                 <li>Last sync timestamps per entity type</li>
-                <li>Store connection status: Live / Paused / Error</li>
+                <li>Store connection status indicators</li>
                 <li>Sync journal for complete audit trail</li>
-                <li>Dynamic sales charts: trends, top products &amp; customer insights</li>
-                <li>7-day orders chart on the connections Kanban view</li>
             </ul>
+        </div>
+        <div class="oe_span6">
+            <img src="feature_dashboard.png" class="oe_picture oe_screenshot" style="max-width:100%;"/>
         </div>
     </div>
 </section>
 
 <!-- AUTO SYNC HIGHLIGHT -->
-<section class="oe_container oe_dark">
+<section class="oe_container">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
             <h2 class="oe_slogan" style="color:#008060;">&#9889; Auto Sync — Changes in Odoo? Shopify Gets Them Instantly.</h2>
@@ -196,9 +116,30 @@
                 <p style="margin:0; font-size:15px; color:#333;">
                     Any update you make in Odoo — product price, stock, customer info — is automatically pushed to your Shopify store.
                     No manual exports. No CSV uploads. Toggle Auto Sync per record for full control.
-                    The connector now uses Shopify's modern <strong>GraphQL API</strong> for improved performance and long-term compatibility.
                 </p>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span3" style="text-align:center; padding:20px 16px;">
+            <div style="font-size:36px; font-weight:bold; color:#008060;">3</div>
+            <p style="font-size:13px; color:#555; margin:4px 0 0;">Sync Entities</p>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:20px 16px;">
+            <div style="font-size:36px; font-weight:bold; color:#008060;">&#8734;</div>
+            <p style="font-size:13px; color:#555; margin:4px 0 0;">Stores Supported</p>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:20px 16px;">
+            <div style="font-size:36px; font-weight:bold; color:#008060;">18</div>
+            <p style="font-size:13px; color:#555; margin:4px 0 0;">Odoo Version</p>
+        </div>
+        <div class="oe_span3" style="text-align:center; padding:20px 16px;">
+            <div style="font-size:36px; font-weight:bold; color:#008060;">&#9889;</div>
+            <p style="font-size:13px; color:#555; margin:4px 0 0;">Real-Time Push</p>
         </div>
     </div>
 </section>
@@ -211,28 +152,13 @@
             <p style="text-align:center; font-size:15px; color:#555; max-width:680px; margin:0 auto;">
                 Connect and manage <strong>multiple Shopify stores</strong> from a single Odoo instance.
                 Each store has its own independent sync settings, credentials, and tracking journal.
-                Support for <strong>Shopify Markets &amp; Catalogs</strong> lets you map Odoo pricelists to different markets for region-specific pricing.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- GRAPHQL / WEBHOOKS -->
-<section class="oe_container oe_dark">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span12">
-            <h2 class="oe_slogan" style="color:#008060;">&#128272; Modern GraphQL API &amp; Real-Time Webhooks</h2>
-            <p style="text-align:center; font-size:15px; color:#555; max-width:680px; margin:0 auto;">
-                Built on Shopify's latest <strong>GraphQL API</strong> for superior speed, stability, and future compatibility.
-                Product, order, and customer <strong>webhooks</strong> ensure your Odoo data is updated the moment anything changes in Shopify —
-                with automatic retries on rate limits and network errors for rock-solid reliability.
             </p>
         </div>
     </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="oe_container">
+<section class="oe_container oe_dark">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
             <h2 class="oe_slogan" style="color:#008060;">Get Started in 4 Steps</h2>
@@ -240,51 +166,86 @@
         <div class="oe_span3" style="text-align:center; padding:16px;">
             <div style="background:#008060; color:white; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px; margin-bottom:10px;">1</div>
             <h4>Install Module</h4>
-            <p style="font-size:13px; color:#666;">Install from Odoo Apps. Appears under your Apps menu instantly.</p>
+            <p style="font-size:13px; color:#666;">Install Shopify Bridge Sync from Odoo Apps. Appears under your Apps menu after installation.</p>
         </div>
         <div class="oe_span3" style="text-align:center; padding:16px;">
             <div style="background:#008060; color:white; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px; margin-bottom:10px;">2</div>
             <h4>Connect Store</h4>
-            <p style="font-size:13px; color:#666;">Enter your Shopify URL and API credentials to connect via OAuth.</p>
+            <p style="font-size:13px; color:#666;">Enter your Shopify store URL and API credentials. Supports multiple stores from a single Odoo instance.</p>
         </div>
         <div class="oe_span3" style="text-align:center; padding:16px;">
             <div style="background:#008060; color:white; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px; margin-bottom:10px;">3</div>
             <h4>Run Initial Sync</h4>
-            <p style="font-size:13px; color:#666;">Import all existing products, orders and customers in one click.</p>
+            <p style="font-size:13px; color:#666;">Import all existing products, orders and customers from Shopify into Odoo in one click.</p>
         </div>
         <div class="oe_span3" style="text-align:center; padding:16px;">
             <div style="background:#008060; color:white; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:bold; font-size:18px; margin-bottom:10px;">4</div>
             <h4>Enable Auto Sync</h4>
-            <p style="font-size:13px; color:#666;">Turn on Auto Sync — every Odoo change goes to Shopify automatically.</p>
+            <p style="font-size:13px; color:#666;">Turn on Auto Sync per record or globally — every Odoo change is automatically reflected in Shopify.</p>
         </div>
     </div>
 </section>
 
-<!-- FAQ HIGHLIGHTS -->
+<!-- TOGGLE SYNC -->
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="color:#008060;">&#128260; Toggle Sync Per Record</h2>
+            <div style="background:#E6F5F1; border-left:4px solid #008060; padding:20px 24px; border-radius:6px; margin:16px auto; max-width:720px;">
+                <p style="margin:0; font-size:15px; color:#333;">
+                    Need fine-grained control? You can enable or disable automatic syncing on a <strong>per-record basis</strong> —
+                    giving you full flexibility over what gets pushed to Shopify and what stays local in Odoo.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TECHNICAL DETAILS -->
 <section class="oe_container oe_dark">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
-            <h2 class="oe_slogan" style="color:#008060;">&#10067; Frequently Asked Questions</h2>
+            <h2 class="oe_slogan" style="color:#008060;">&#128295; Technical Details</h2>
         </div>
-        <div class="oe_span6" style="padding:0 16px;">
-            <h4 style="color:#008060;">&#9989; Works with Odoo Enterprise &amp; Community?</h4>
-            <p style="font-size:13px; color:#555;">Yes — fully compatible with Odoo Enterprise (On-Premise and Odoo.sh) as well as Community editions.</p>
-
-            <h4 style="color:#008060;">&#9989; How many Shopify stores can I connect?</h4>
-            <p style="font-size:13px; color:#555;">As many as you want. Connect unlimited Shopify stores to a single Odoo instance, each with its own settings.</p>
-
-            <h4 style="color:#008060;">&#9989; Can I test before purchasing?</h4>
-            <p style="font-size:13px; color:#555;">Yes, a demo instance can be arranged for your store. Contact the support team to set it up.</p>
+        <div class="oe_span6" style="padding:0 20px;">
+            <table style="width:100%; font-size:14px; border-collapse:collapse;">
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777; width:45%;">Odoo Version</td>
+                    <td style="padding:10px 8px; font-weight:600; color:#333;">18.0</td>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777;">Module Name</td>
+                    <td style="padding:10px 8px; font-family:monospace; color:#008060;">bridge_shopify_sync</td>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777;">Dependencies</td>
+                    <td style="padding:10px 8px; color:#333;">base, mail, sale_management, contacts</td>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777;">Python Library</td>
+                    <td style="padding:10px 8px; color:#333;">requests</td>
+                </tr>
+            </table>
         </div>
-        <div class="oe_span6" style="padding:0 16px;">
-            <h4 style="color:#008060;">&#9989; Does it support two-way product sync?</h4>
-            <p style="font-size:13px; color:#555;">Yes — import from Shopify to Odoo and export from Odoo to Shopify, with configurable field-level control.</p>
-
-            <h4 style="color:#008060;">&#9989; Do I get free upgrades?</h4>
-            <p style="font-size:13px; color:#555;">Yes, updates are included for the purchased version. Purchases via the VentorTech Ecosystem include unlimited support while your subscription is active.</p>
-
-            <h4 style="color:#008060;">&#9989; Can I sync custom fields?</h4>
-            <p style="font-size:13px; color:#555;">Yes — custom fields, metafields, and even custom Python-based transformation logic can be configured directly from the Odoo UI.</p>
+        <div class="oe_span6" style="padding:0 20px;">
+            <table style="width:100%; font-size:14px; border-collapse:collapse;">
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777; width:45%;">License</td>
+                    <td style="padding:10px 8px; color:#333;">LGPL-3</td>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777;">Price</td>
+                    <td style="padding:10px 8px; font-weight:600; color:#008060;">$117.71 USD — One-time purchase</td>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777;">Multi-Store</td>
+                    <td style="padding:10px 8px; color:#333;">&#9989; Yes — unlimited stores</td>
+                </tr>
+                <tr style="border-bottom:1px solid #ddd;">
+                    <td style="padding:10px 8px; color:#777;">Auto Install</td>
+                    <td style="padding:10px 8px; color:#333;">No — manual installation</td>
+                </tr>
+            </table>
         </div>
     </div>
 </section>
@@ -296,8 +257,9 @@
             <h2 class="oe_slogan" style="color:#008060;">Support</h2>
             <p style="text-align:center; font-size:15px; color:#555;">
                 For help with installation, configuration, or sync issues:<br/><br/>
-                &#128231; <strong>Email:</strong> <a href="mailto:info@linksforeveryone.com">info@linksforeveryone.com</a><br/>
-                &#127760; <strong>Website:</strong> <a href="https://linksforeveryone.com">linksforeveryone.com</a>
+                &#128231; <strong>Email:</strong> <a href="mailto:info@linksforeveryone.com" style="color:#008060;">info@linksforeveryone.com</a><br/>
+                &#127760; <strong>Website:</strong> <a href="https://linksforeveryone.com" style="color:#008060;">linksforeveryone.com</a><br/><br/>
+                <span style="font-size:13px; color:#888;">Please include your Odoo version, module version, and a description of the issue when reaching out.</span>
             </p>
         </div>
     </div>
